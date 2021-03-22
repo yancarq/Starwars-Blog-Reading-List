@@ -22,32 +22,53 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			AddFavorites: () => {},
+			AddFavorites: name => {
+				const store = getStore();
+
+				//we have to loop the entire demo array to look for the respective index
+				//and change its color
+				const favorit = store.favorites;
+
+				setStore({ favorites: favorit.concat(name) });
+			},
 			loadAllCharacters: async () => {
-				let result = await fetch("https://www.swapi.tech/api/people")
+				let lista = [];
+				const result = await fetch("https://www.swapi.tech/api/people")
 					.then(res => res.json())
-					//.then(response => setStore({characters: JSON.stringify(response.results)}) )
 					.then(response => {
-						let lista = response.results;
-						lista.map(function(elem, index) {
-							fetch(elem.url)
-								.then(res => res.json())
-								.then(response => (elem.properties = response.result))
-								.catch(error => console.log("Error 1", error)); //if is error.
-						});
-						setStore({ characters: lista });
+						lista = response.results;
 					})
-					.catch(error => console.log("Error 1", error)); //if is error.
+					.catch(error => alert("El servidor se unió al lado oscuro")); //if is error.
+
+				const resultProp = await Promise.all(
+					lista.map(async function(elem, index) {
+						const res = await fetch(elem.url)
+							.then(res => res.json())
+							.then(response => (elem.properties = response.result))
+							.catch(error => console.log("Error al conectar con el servidor")); //if is error.
+					})
+				);
+
+				setStore({ characters: lista });
 			},
 
-			loadPlanets: () => {
-				/**
-                    fetch().then().then(data => setStore({ "foo": data.bar }))
-                */
-				fetch("https://www.swapi.tech/api/people")
+			loadAllPlanets: async () => {
+				let lista = [];
+				const result = await fetch("https://www.swapi.tech/api/planets")
 					.then(res => res.json())
-					.then(response => setStore(JSON.stringify(response.results)))
-					.catch(error => console.error("Error:", error));
+					.then(response => {
+						lista = response.results;
+					})
+					.catch(error => console.log("Error al conectar con el servidor")); //if is error.
+				const resultProp = await Promise.all(
+					lista.map(async function(elem, index) {
+						const res = await fetch(elem.url)
+							.then(res => res.json())
+							.then(response => (elem.properties = response.result))
+							.catch(error => console.log("Error al conectar con el servidor")); //if is error.
+					})
+				);
+				setStore({ planets: lista });
 			},
 			changeColor: (index, color) => {
 				//get the store

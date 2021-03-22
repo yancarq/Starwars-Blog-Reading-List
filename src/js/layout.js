@@ -5,12 +5,13 @@ import ScrollToTop from "./component/scrollToTop";
 import { Home } from "./views/home";
 import { Demo } from "./views/demo";
 import { Single } from "./views/single";
-import { Details } from "./views/details";
+import { DetailsCharacter, DetailsPlanet } from "./views/details";
 
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import "../styles/layout.scss";
 
 //create your first component
 const Layout = () => {
@@ -33,14 +34,20 @@ const Layout = () => {
 						<Route exact path="/single/:theid">
 							<Single />
 						</Route>
-						<Route exact path="/details">
-							<Details />
+						<Route exact path="/detailsCharacter/:index">
+							<DetailsCharacter />
+						</Route>
+						<Route exact path="/detailsPlanet/:index">
+							<DetailsPlanet />
 						</Route>
 					</Switch>
 
 					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>
+			<video autoPlay loop muted id="video">
+				<source src="https://www.youtube.com/watch?v=tGsKzZtRwxw" type="video/mp4" />
+			</video>
 		</div>
 	);
 };

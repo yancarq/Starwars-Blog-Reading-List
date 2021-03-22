@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
+
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
 
 export const Navbar = () => {
+	const { store, actions } = useContext(Context);
 	return (
-		<nav className="navbar navbar-light bg-light mb-3">
+		<nav className="navbar navbar-light mb-3">
 			<Link to="/">
 				<span className="navbar-brand mb-0 h1">
 					<img
@@ -21,7 +26,11 @@ export const Navbar = () => {
 						data-toggle="dropdown"
 						aria-haspopup="true"
 						aria-expanded="false">
-						Favorites <span className="bg-light text-secondary p-1">{0}</span>
+						<img
+							src="https://cdn0.iconfinder.com/data/icons/famous-character-vol-1-colored/48/JD-41-512.png"
+							style={{ width: "50px" }}
+						/>
+						Favorites <span className="bg-light text-secondary p-1 rounded">{store.favorites.length}</span>
 					</button>
 					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						<a className="dropdown-item" href="#">
