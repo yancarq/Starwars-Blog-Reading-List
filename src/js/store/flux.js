@@ -28,9 +28,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//we have to loop the entire demo array to look for the respective index
 				//and change its color
 				const favorit = store.favorites;
-
+				//	if (favorit.findIndex(name) < 0) {
 				setStore({ favorites: favorit.concat(name) });
+				// } else {
+				// 	alert("Ya esta agregado, querido Padawan.");
+				// }
 			},
+			RemoveFavorites: val => {
+				const store = getStore();
+				const favorites = store.favorites.filter((elm, index) => {
+					return val != index;
+				});
+
+				//we have to loop the entire demo array to look for the respective index
+				//and change its color
+				setStore({ favorites: favorites.concat() });
+			},
+
 			loadAllCharacters: async () => {
 				let lista = [];
 				const result = await fetch("https://www.swapi.tech/api/people")
